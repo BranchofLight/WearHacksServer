@@ -1,0 +1,2 @@
+# WearHacksServer
+The server.
