@@ -6,6 +6,7 @@ var port = 2116;
 http.createServer(function(req, res) {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
   if (req.method === "GET") {
+    console.log('GET Request Received');
     if (req.url === '/currtime') {
       var time = time.toLocaleString();
       res.end("The time is: " + time + '\n');
