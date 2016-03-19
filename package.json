@@ -19,8 +19,9 @@
   "homepage": "https://github.com/BranchofLight/WearHacksServer#readme",
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-watch": "^1.0.0",
     "sql": "^0.67.0",
     "sqlite3": "^3.1.1"
   }

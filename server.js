@@ -1,3 +1,8 @@
+/**
+ * Purpose: Main server code. Handles GET and POST requests.
+ * Source:  server.js
+ */
+
 var http = require('http');
 
 var hostname = '192.168.1.110';
