@@ -1,0 +1,25 @@
+{
+  "name": "wearhacksserver",
+  "version": "0.0.1",
+  "description": "The server for the Wear Hacks project.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BranchofLight/WearHacksServer.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BranchofLight/WearHacksServer/issues"
+  },
+  "homepage": "https://github.com/BranchofLight/WearHacksServer#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

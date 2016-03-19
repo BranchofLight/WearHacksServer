@@ -1,7 +1,7 @@
-const http = require('http');
+var http = require('http');
 
-const hostname = 'localhost';
-const port = 2116;
+var hostname = 'localhost';
+var port = 2116;
 
 http.createServer(function(req, res) {
   res.writeHead(200, { 'Content-Type': 'text/plain' });
@@ -15,5 +15,5 @@ http.createServer(function(req, res) {
 
   res.end("Finish.\n");
 }).listen(port, hostname, function() {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log("Server running at http://" + hostname + ":" + port);
 });
