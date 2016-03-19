@@ -8,9 +8,18 @@ http.createServer(function(req, res) {
   if (req.method === "GET") {
     if (req.url === '/currtime') {
       var time = new Date();
-      time = time.getDate();
-      res.write("THE TIME IS: " + time + '\n');
+      time = time.toLocaleString();
+      res.write("The time is: " + time + '\n');
     }
+  }
+
+  if (req.method === "POST") {
+    // var requestBody = '';
+    res.on('data', function(data) {
+      // requestBody += data;
+      console.log(data);
+      res.write("The time is: " + time + "\n");
+    });
   }
 
   res.end("Finish.\n");
