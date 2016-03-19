@@ -1,6 +1,7 @@
 var http = require('http');
 
-var hostname = '192.168.1.10';
+var hostname = '192.168.1.110';
+// var hostname = "localhost";
 var port = 2116;
 
 http.createServer(function(req, res) {
@@ -9,12 +10,13 @@ http.createServer(function(req, res) {
   if (req.method === "GET") {
     console.log('GET Request Received');
     if (req.url === '/currtime') {
-      var time = time.toLocaleString();
+      var time = new Date();
+      time = time.toLocaleString();
       res.end("The time is: " + time + '\n');
+    } else {
+      res.end();
     }
-  }
-
-  if (req.method === "POST") {
+  } else if (req.method === "POST") {
     console.log('POST Request Received');
     req.on('data', function(data) {
       var time = new Date();
@@ -24,14 +26,14 @@ http.createServer(function(req, res) {
       var resObj = {};
 
       if (reqObj.reqtype === "initpark") {
+        console.log("Returning for initpark");
         res.end(time.toLocaleString());
       } else if (reqObj.reqtype === "endpark") {
-        resObj = {
+        console.log("Returning for endpark");
+        res.end(JSON.stringify({
           "timestamp": time.toLocaleString(),
-          "price": 4.20
-        };
-
-        res.end(resObj);
+          "price": 9.61
+        }));
       }
     });
   }
