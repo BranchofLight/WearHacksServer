@@ -4,7 +4,7 @@
  */
 
 var http = require('http');
-var async = require("async");
+// var async = require("async");
 
 var hostname = '192.168.1.110';
 // var hostname = "localhost";
@@ -41,54 +41,64 @@ http.createServer(function(req, res) {
         initPark(reqObj.userID, reqObj.parkingID, time.toLocaleString());
         getAllPark();
         res.end(time.toLocaleString());
+      } else if (reqObj.reqtype === "carLeft") {
+          console.log("Car has left");
+          
+          db.each("SELECT * from park_info WHERE PARKING_ID=" + reqObj.parkingID + " AND END_TIME IS NULL;", function(err, rows) {
+
+            var endTime = new Date();
+
+            var startTime = new Date(rows.START_TIME);
+            var timeDiff = (endTime.getTime() - startTime.getTime())/1000;
+
+            var chargeCalc = timeDiff * 1.53;
+
+            endParkProximity(reqObj.parkingID, endTime.toLocaleString(), chargeCalc);
+
+            res.end();
+
+          });
+
+
       } else if (reqObj.reqtype === "endpark") {
-        console.log("Returning for endpark");
-        console.log("Start: " + getStartTime(reqObj.userID, reqObj.parkingID));
-        time = new Date();
-        console.log("End: " + time.toLocaleString());
+          console.log("Returning for endpark");
+          
 
-        endPark(reqObj.userID, reqObj.parkingID, time.toLocaleString(), 9.61);
-        getAllPark();
-        res.end(JSON.stringify({
-          "timestamp": time.toLocaleString(),
-          "price": 9.61
-        }));
+          db.each("SELECT * from park_info WHERE USER_ID=" + reqObj.userID + " AND PARKING_ID=" + reqObj.parkingID + " GROUP BY END_TIME DES LIMIT 1;", function(err, rows) {
+            
+            res.end(JSON.stringify({
+              "starttime": rows.START_TIME,
+              "endtime:": rows.END_TIME,
+              "parkingID": rows.PARKING_ID,
+              "userID": rows.USER_ID,
+              "price": rows.CHARGE
+            }));
 
-
-
-        // async.series([
-        //   function() {
-        //     val = getStartTime(reqObj.userID, reqObj.parkingID);
-        //     console.log("First val: " + val);
-        //   },
-        //   function() {
-        //     console.log("Val: " + val);
-        //     if (val.length > 0) {
-        //       val = val[0].START_TIME;
-        //     }
-        //     console.log("Past date: " + val);
-        //     getAllPark();
-        //     console.log("Past date milli: " + Date.parse(val));
-        //     var cost = Date.parse(time.toLocaleString()) - Date.parse(val);
-        //     console.log("Cost: " + cost);
-        //     console.log("Difference: " + (new Date(cost)));
-        //   },
-        //   function() {
-        //     endPark(reqObj.userID, reqObj.parkingID, time.toLocaleString(), 99);
-        //     getAllPark();
-        //     res.end(JSON.stringify({
-        //       "timestamp": time.toLocaleString(),
-        //       "price": 9.61
-        //     }));
-        //   }
-        // ]);
-
-
-
+          });
 
       }
+
     });
   }
 }).listen(port, hostname, function() {
   console.log("Server running at http://" + hostname + ":" + port);
 });
+
+function testMonkey(userID, parkingID){
+
+  db.each("SELECT * from park_info WHERE USER_ID=" + userID + " AND PARKING_ID=" + parkingID + ";", function(err, rows) {
+    rows.START_TIME;
+  });
+
+  var someValOne = getStartTime(userID, parkingID);
+  var timeOne = new Date();
+  var someTime = timeOne.toLocaleString();
+
+  endPark(userID, parkingID, timeOne.toLocaleString(), 9.61);
+  getAllPark();
+  
+  console.log("Start: " + someValOne);
+  console.log("End: " + someTime);
+
+  return timeOne.toLocaleString();
+}

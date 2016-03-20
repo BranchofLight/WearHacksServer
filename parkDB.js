@@ -40,6 +40,10 @@ var endPark = function(userID, parkingID, endTime, charge) {
 	db.run("UPDATE park_info SET END_TIME='"+ endTime +"', CHARGE="+ charge +" WHERE USER_ID="+ userID + " AND PARKING_ID="+ parkingID +" AND END_TIME IS NULL;");
 };
 
+var endParkProximity = function(parkingID, endTime, charge) {
+	db.run("UPDATE park_info SET END_TIME='"+ endTime +"', CHARGE="+ charge +" WHERE PARKING_ID="+ parkingID +" AND END_TIME IS NULL;");
+};
+
 /**=============================
 		SELECT QUERIES
 =============================**/
@@ -52,14 +56,15 @@ var getAllPark = function() {
 
 // Fetches the entry start time from the park_info table
 var getStartTime = function(userID, parkingID) {
-	var val = {};
-	db.get("SELECT * from park_info WHERE USER_ID=" + userID + " AND PARKING_ID=" + parkingID + ";", [], function(err, row) {
-		val = row;
-		console.log("row: " + row);
+	var val;
+
+	db.each("SELECT * from park_info WHERE USER_ID=" + userID + " AND PARKING_ID=" + parkingID + ";", function(err, rows) {
+		console.log(rows);
+		console.log("v: " + rows);
+		console.log("v.start: " + rows.START_TIME);
+		console.log("Returning val: " + rows.START_TIME);
+		val = rows.START_TIME;
 	});
-	console.log(val);
-	console.log("v: " + val);
-	console.log("v.start: " + val.START_TIME);
-	console.log("Returning val: " + val.START_TIME);
-	return val.START_TIME;
+
+	return val;
 };
