@@ -12,11 +12,11 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      files: ['server.js'],
-      tasks: ['lint'],
+      files: ['server.js', 'parkDB.js', 'main.js'],
+      tasks: ['concat', 'lint'],
     },
     jshint: {
-      src: ['Gruntfile.js', 'server.js'],
+      src: ['Gruntfile.js', 'server.js', 'parkDB.js'],
     },
   });
 
