@@ -1,2 +1,2 @@
 # WearHacksServer
-The server.
+The server for our automated parking concept.
